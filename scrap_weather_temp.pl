@@ -96,7 +96,7 @@ while (my @station = each(%stations)) {
 
 $dbh = DBI->connect("dbi:SQLite:dbname=$dbfile","","", { RaiseError => 1, PrintError => 0});
 $stmt = $dbh->prepare("SELECT date as 'Datetime', station_name as 'Station Name', T.station_code as 'Station Code', MAX(temp) as 'Max Temp', MIN(temp) as 'Min Temp', AVG(temp) as 'Avg Temp' \
-  FROM (SELECT temp, station_code, DATE(DATETIME(dt, '-3 hours')) AS date \
+  FROM (SELECT temp, station_code, DATE(DATETIME(dt, '+0 hours')) AS date \
         FROM TEMPS WHERE temp IS NOT NULL) T JOIN STATIONS S ON T.station_code = S.station_code
   GROUP BY date, T.station_code");
 my $rv = $stmt->execute;
