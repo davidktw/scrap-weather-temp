@@ -29,7 +29,8 @@ my %stations = (
   S115 => 'Tuas South'
 );
 
-my $temp_uri = 'http://www.weather.gov.sg/wp-content/themes/wiptheme/page-functions/functions-ajax-temperature-chart.php';
+#my $temp_uri = 'http://www.weather.gov.sg/wp-content/themes/wiptheme/page-functions/functions-ajax-temperature-chart.php';
+my $temp_uri = 'https://www.weather.gov.sg/wp-content/themes/wiptheme/page-functions/functions-ajax-temperature-chart.php';
 my $dbfile   = './temps.db';
 
 my $dbh = DBI->connect("dbi:SQLite:dbname=$dbfile","","", { RaiseError => 1, PrintError => 0, AutoCommit => 0});
@@ -98,7 +99,7 @@ $dbh = DBI->connect("dbi:SQLite:dbname=$dbfile","","", { RaiseError => 1, PrintE
 $stmt = $dbh->prepare("SELECT date as 'Datetime', station_name as 'Station Name', T.station_code as 'Station Code', MAX(temp) as 'Max Temp', MIN(temp) as 'Min Temp', AVG(temp) as 'Avg Temp' \
   FROM (SELECT temp, station_code, DATE(DATETIME(dt, '+0 hours')) AS date \
         FROM TEMPS \
-        WHERE temp IS NOT NULL AND DATETIME(dt) > DATETIME('now', '-14 days', 'localtime')\
+        WHERE temp IS NOT NULL AND DATETIME(dt) > DATETIME('now', '-21 days', 'localtime')\
        ) T JOIN STATIONS S ON T.station_code = S.station_code \
   GROUP BY date, T.station_code");
 my $rv = $stmt->execute;
